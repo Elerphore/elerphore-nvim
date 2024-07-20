@@ -11,6 +11,7 @@ return {
     "L3MON4D3/LuaSnip",
     "saadparwaiz1/cmp_luasnip",
     "j-hui/fidget.nvim",
+    "Hoffs/omnisharp-extended-lsp.nvim",
   },
 
   config = function()
@@ -30,6 +31,9 @@ return {
         "rust_analyzer",
         "gopls",
         "vtsls",
+        "emmet_ls",
+        "omnisharp",
+        "crystalline"
       },
       handlers = {
         function(server_name) -- default handler (optional)
@@ -37,7 +41,18 @@ return {
             capabilities = capabilities
           }
         end,
+        omnisharp = function()
+          local lspconfig = require("lspconfig")
 
+          lspconfig.omnisharp.setup({
+            handlers = {
+              ["textDocument/definition"] = require('omnisharp_extended').definition_handler,
+              ["textDocument/typeDefinition"] = require('omnisharp_extended').type_definition_handler,
+              ["textDocument/references"] = require('omnisharp_extended').references_handler,
+              ["textDocument/implementation"] = require('omnisharp_extended').implementation_handler,
+            },
+          })
+        end,
         zls = function()
           local lspconfig = require("lspconfig")
           lspconfig.zls.setup({
