@@ -13,6 +13,7 @@ return {
   opts = {
     filesystem = {
       window = {
+        width = 30,
         mappings = {
           ['z'] = 'close_window',
         },
